@@ -1,0 +1,51 @@
+---
+before_install:
+  - "git fetch --tags"
+
+scala_212: &scala_212 2.12.11
+scala_213: &scala_213 2.13.2
+
+language: scala
+
+jdk:
+  - openjdk8
+
+cache:
+  directories:
+    - $HOME/.coursier/cache
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot
+dist: xenial
+
+stages:
+  - name: test
+  - name: release
+    if: "((branch = master AND type = push) OR (tag IS present)) AND NOT fork"
+
+jobs:
+  include:
+    - &all_tests
+      stage: test
+      env: TEST="all_tests"
+      script: sbt test
+      scala: *scala_212
+    - <<: *all_tests
+      env: TEST="all_tests"
+      scala: *scala_213
+    - env: TEST="styling"
+      scala: *scala_213
+      script: sbt ++$TRAVIS_SCALA_VERSION scalafmtCheckAll
+    - env: TEST="docs"
+      script: sbt ++$TRAVIS_SCALA_VERSION docsJVM/mdoc && sbt ++$TRAVIS_SCALA_VERSION docsJVM/docusaurusCreateSite
+      scala: *scala_212
+      deploy:
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        local-dir: ./website/build/http4s-modules
+        provider: pages
+        skip_cleanup: true
+        target-branch: gh-pages
+        on:
+          branch: master
+    - stage: release
+      script: sbt ci-release
