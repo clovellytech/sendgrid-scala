@@ -16,9 +16,8 @@ val commonSettings = Seq(
 ) ++ compilerPlugins
 
 lazy val core = project
-  .in(file("./modules/emails"))
+  .in(file("./modules/core"))
   .settings(commonSettings)
-  .settings(name := "sendgrid-core")
 
 lazy val docs = project
   .in(file("./sendgrid-scala-docs"))
