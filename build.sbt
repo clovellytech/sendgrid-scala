@@ -12,8 +12,9 @@ val commonSettings = Seq(
   scalaVersion := scala213,
   crossScalaVersions := Seq(scala212, scala213),
   resolvers ++= addResolvers,
-  scalacOptions += "-Ymacro-annotations"
-) ++ compilerPlugins
+  scalacOptions ++= options.scalacExtraOptionsForVersion(scalaVersion.value),
+  libraryDependencies ++= compilerPluginsForVersion(scalaVersion.value)
+)
 
 lazy val core = project
   .in(file("./modules/core"))
