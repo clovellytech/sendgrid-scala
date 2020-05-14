@@ -19,5 +19,6 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-effect" % versions.catsEffect,
   "org.typelevel" %% "cats-mtl-core" % versions.catsMtl
 ) ++ Seq(
-  "com.lihaoyi" %% "scalatags" % versions.scalatags
+  "com.lihaoyi" %% "scalatags" % versions.scalatags,
+  "io.christopherdavenport" %% "log4cats" % versions.log4cats
 )

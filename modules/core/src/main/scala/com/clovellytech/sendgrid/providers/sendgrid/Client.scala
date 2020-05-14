@@ -24,9 +24,12 @@ import org.http4s.Request
 import org.http4s.Status
 import io.circe.syntax._
 import io.circe.Encoder
+import io.chrisdavenport.log4cats.Logger
 
-class Emails[F[_]: ConcurrentEffect: ContextShift: Timer](client: Client[F], config: EmailsConfig)
-    extends Http4sDsl[F]
+class Emails[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
+    client: Client[F],
+    config: EmailsConfig
+) extends Http4sDsl[F]
     with EmailAlgebra[F]
     with Http4sClientDsl[F] {
 
@@ -36,14 +39,15 @@ class Emails[F[_]: ConcurrentEffect: ContextShift: Timer](client: Client[F], con
     for {
       send <- implicitly[ConcurrentEffect[F]].fromEither(settings.sendEndpoint)
       req <- POST.apply(email, send, settings.requestHeadersList.toList: _*)
-      _ = println("Sent email")
-      _ = println(email)
+      _ <- Logger[F].info("Attempting to send email")
       resp <- client.run(req).use { resp =>
         if (resp.status == Status.Accepted) {
-          ConcurrentEffect[F].delay(resp.status)
+          Logger[F].info("sending successful") *> ConcurrentEffect[F].delay(resp.status)
         } else {
           resp.as[SendgridErrors].flatMap { e =>
-            ConcurrentEffect[F].raiseError[Status](new Error(e.errors.toString))
+            val error = new Error(e.errors.toString)
+            val logmessage = s"sending failed\n\n${email.toString}"
+            Logger[F].error(error)(logmessage) *> ConcurrentEffect[F].raiseError[Status](error)
           }
         }
       }
@@ -51,7 +55,7 @@ class Emails[F[_]: ConcurrentEffect: ContextShift: Timer](client: Client[F], con
 }
 
 object Emails {
-  def apply[F[_]: ConcurrentEffect: ContextShift: Timer](
+  def apply[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
       ec: ExecutionContext,
       emailsConfig: EmailsConfig
   ): Resource[F, Emails[F]] =

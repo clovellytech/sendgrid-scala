@@ -19,6 +19,7 @@ object dependencies {
     val circeConfig = "0.7.0"
     val http4s = "0.21.4"
     val logback = "1.2.3"
+    val log4cats = "1.1.1"
     val scalaCheck = "1.14.3"
     val scalatags = "0.8.2"
     val scalatest = "3.2.0-M1"
