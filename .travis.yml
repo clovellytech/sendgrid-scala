@@ -36,7 +36,7 @@ jobs:
       scala: *scala_213
       script: sbt ++$TRAVIS_SCALA_VERSION scalafmtCheckAll
     - env: TEST="docs"
-      script: sbt ++$TRAVIS_SCALA_VERSION docsJVM/mdoc && sbt ++$TRAVIS_SCALA_VERSION docsJVM/docusaurusCreateSite
+      script: sbt ++$TRAVIS_SCALA_VERSION docs/mdoc && sbt ++$TRAVIS_SCALA_VERSION docs/docusaurusCreateSite
       scala: *scala_212
       deploy:
         github-token: $GITHUB_TOKEN
