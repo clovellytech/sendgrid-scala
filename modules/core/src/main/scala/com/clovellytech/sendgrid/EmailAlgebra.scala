@@ -1,6 +1,5 @@
 package com.clovellytech.sendgrid
 
-import cats.effect.Resource
 import org.http4s.Status
 
 trait EmailAlgebra[F[_]] {

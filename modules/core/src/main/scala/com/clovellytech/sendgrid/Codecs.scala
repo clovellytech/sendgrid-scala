@@ -2,7 +2,6 @@ package com.clovellytech.sendgrid
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
-import org.http4s.circe._
 
 object Codecs {
   implicit val emailEncoder: Encoder[Email] = deriveEncoder
