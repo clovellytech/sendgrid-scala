@@ -43,7 +43,7 @@ jobs:
       deploy:
         github-token: $GITHUB_TOKEN
         keep-history: true
-        local-dir: ./website/build/http4s-modules
+        local-dir: ./website/build/sendgrid-scala
         provider: pages
         skip_cleanup: true
         target-branch: gh-pages
