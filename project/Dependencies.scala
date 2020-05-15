@@ -38,6 +38,7 @@ object dependencies {
     val kindProjector212 = "0.10.3"
     val kindProjector213 = "0.11.0"
     val logback = "1.2.3"
+    val log4cats = "1.1.1"
     val macroParadise = "2.1.1"
     val scalaCheck = "1.14.3"
     val scalatags = "0.8.2"
