@@ -7,8 +7,23 @@ cancelable in Global := true
 val scala212 = "2.12.11"
 val scala213 = "2.13.2"
 
+inThisBuild(
+  Seq(
+    organization := "com.clovellytech",
+    homepage := Some(url("https://github.com/clovellytech/sendgrid-scala")),
+    licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT")),
+    developers := List(
+      Developer(
+        "zakpatterson",
+        "Zak Patterson",
+        "pattersonzak@gmail.com",
+        url("https://github.com/zakpatterson")
+      )
+    )
+  )
+)
+
 val commonSettings = Seq(
-  organization := "com.clovellytech",
   scalaVersion := scala213,
   crossScalaVersions := Seq(scala212, scala213),
   resolvers ++= addResolvers,
