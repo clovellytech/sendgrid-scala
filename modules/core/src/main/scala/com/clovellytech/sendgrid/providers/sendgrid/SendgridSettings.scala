@@ -1,4 +1,5 @@
-package com.clovellytech.sendgrid.providers.sendgrid
+package com.clovellytech.sendgrid
+package providers.sendgrid
 
 import org.http4s._
 
@@ -8,7 +9,8 @@ final case class SendgridSettings(
     apiKey: String,
     rateLimitRetry: Int,
     rateLimitSleep: Int,
-    subUser: String // Not sure what this is
+    subUser: String,
+    emailsConfig: EmailsConfig
 ) {
   def userAgent: String = "sendgrid/" + version + ";scala"
 
@@ -26,16 +28,16 @@ final case class SendgridSettings(
 
 }
 
-// Probably need to offload this to a configuration.
 object SendgridSettings {
   val RATE_LIMIT_RESPONSE_CODE = 429
 
-  def default(apiKey: String) = SendgridSettings(
+  def default(apiKey: String, emailsConfig: EmailsConfig) = SendgridSettings(
     "v3",
     "api.sendgrid.com",
     apiKey,
     10,
     50,
-    ""
+    "",
+    emailsConfig
   )
 }

@@ -1,9 +1,9 @@
 package com.clovellytech.sendgrid
 
-import io.circe.{Decoder, Encoder}
+import io.circe.Encoder
 import io.circe.generic.semiauto._
 
-object Codecs {
+trait Codecs {
   implicit val emailEncoder: Encoder[Email] = deriveEncoder
 
   implicit val contentElementEncoder: Encoder[ContentElement] =
@@ -11,7 +11,4 @@ object Codecs {
 
   implicit val personalizationsEncoder: Encoder[Personalizations] = deriveEncoder
   implicit val emailDataEncoder: Encoder[EmailData] = deriveEncoder
-
-  implicit val errorDecoder: Decoder[SendgridError] = deriveDecoder
-  implicit val errorsDecoder: Decoder[SendgridErrors] = deriveDecoder
 }

@@ -6,7 +6,7 @@ import cats.effect.ContextShift
 import cats.effect.Resource
 import cats.effect.Timer
 import cats.implicits._
-import Codecs._
+import providers.sendgrid.implicits._
 import org.http4s.circe.CirceEntityCodec._
 import org.http4s.client._
 import org.http4s.client.blaze._
@@ -16,19 +16,17 @@ import org.http4s.Status
 import io.chrisdavenport.log4cats.Logger
 import scala.concurrent.ExecutionContext
 
-class Emails[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
+class SendgridProvider[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
     client: Client[F],
-    config: EmailsConfig
+    config: SendgridSettings
 ) extends Http4sDsl[F]
     with EmailAlgebra[F]
     with Http4sClientDsl[F] {
 
-  val settings = SendgridSettings.default(config.apiKey)
-
   def sendEmail(email: EmailData): F[Status] =
     for {
-      send <- implicitly[ConcurrentEffect[F]].fromEither(settings.sendEndpoint)
-      req <- POST.apply(email, send, settings.requestHeadersList.toList: _*)
+      send <- implicitly[ConcurrentEffect[F]].fromEither(config.sendEndpoint)
+      req <- POST.apply(email, send, config.requestHeadersList.toList: _*)
       _ <- Logger[F].info("Attempting to send email")
       resp <- client.run(req).use { resp =>
         if (resp.status == Status.Accepted) {
@@ -44,10 +42,10 @@ class Emails[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
     } yield resp
 }
 
-object Emails {
-  def apply[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
+object SendgridProvider {
+  def resource[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
       ec: ExecutionContext,
-      emailsConfig: EmailsConfig
-  ): Resource[F, Emails[F]] =
-    BlazeClientBuilder(ec).resource.map(c => new Emails[F](c, emailsConfig))
+      config: SendgridSettings
+  ): Resource[F, SendgridProvider[F]] =
+    BlazeClientBuilder(ec).resource.map(c => new SendgridProvider[F](c, config))
 }
