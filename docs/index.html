@@ -1,3 +1,90 @@
 <!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Sendgrid scala · Sendgrid Scala API Docs</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Documentation "/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Sendgrid scala · Sendgrid Scala API Docs"/><meta property="og:type" content="website"/><meta property="og:url" content="https://clovellytech.github.io/sendgrid-scala/"/><meta property="og:description" content="Documentation "/><meta property="og:image" content="https://clovellytech.github.io/sendgrid-scala/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://clovellytech.github.io/sendgrid-scala/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/sendgrid-scala/"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/sendgrid-scala/js/scrollSpy.js"></script><link rel="stylesheet" href="/sendgrid-scala/css/main.css"/><script src="/sendgrid-scala/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/sendgrid-scala/"><h2 class="headerTitle">Sendgrid Scala API Docs</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">Sendgrid scala</h1></header><article><div><span><h1><a class="anchor" aria-hidden="true" id="documentation"></a><a href="#documentation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Documentation</h1>
-<h1><a class="anchor" aria-hidden="true" id="coming-soon"></a><a href="#coming-soon" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Coming soon</h1>
+<h1><a class="anchor" aria-hidden="true" id="sending-email"></a><a href="#sending-email" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sending email</h1>
+<p>This project uses circe to encode emails and decode responses.</p>
+<p>Your services can depend on the availability of an email provider like so:</p>
+<pre><code class="hljs css language-scala mdoc"><span class="hljs-keyword">import</span> cats._
+<span class="hljs-keyword">import</span> cats.implicits._
+<span class="hljs-keyword">import</span> cats.effect._
+<span class="hljs-keyword">import</span> com.clovellytech.sendgrid._
+<span class="hljs-keyword">import</span> com.clovellytech.sendgrid.providers.sendgrid._
+<span class="hljs-keyword">import</span> io.chrisdavenport.log4cats.<span class="hljs-type">Logger</span>
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Service</span>[<span class="hljs-type">F</span>[_]</span>: <span class="hljs-type">Functor</span>: <span class="hljs-type">EmailAlgebra</span>] {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">respond</span></span>(): <span class="hljs-type">F</span>[<span class="hljs-type">Unit</span>] = {
+    <span class="hljs-type">EmailAlgebra</span>[<span class="hljs-type">F</span>].sendEmail(
+      <span class="hljs-type">EmailData</span>.text(
+        from = <span class="hljs-type">Email</span>(<span class="hljs-string">"Site"</span>, <span class="hljs-string">"name@yoursite.com"</span>),
+        to = <span class="hljs-type">Email</span>(<span class="hljs-string">"user name"</span>, <span class="hljs-string">"user@gmail.com"</span>),
+        subject = <span class="hljs-string">"Registration update"</span>,
+        text = <span class="hljs-string">"Thank you for registering"</span>
+      )
+    ).as(())
+  }
+}
+
+</code></pre>
+<p>Now all that is required is to instantiate an email provider given your apikey and configuration:</p>
+<pre><code class="hljs css language-scala mdoc"><span class="hljs-keyword">import</span> scala.concurrent.<span class="hljs-type">ExecutionContext</span>.<span class="hljs-type">Implicits</span>.global
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Server</span>[<span class="hljs-type">F</span>[_]</span>: <span class="hljs-type">ConcurrentEffect</span>: <span class="hljs-type">ContextShift</span>: <span class="hljs-type">Timer</span>: <span class="hljs-type">Logger</span>] {
+  <span class="hljs-keyword">val</span> config = <span class="hljs-type">SendgridSettings</span>.<span class="hljs-keyword">default</span>(<span class="hljs-string">"your api key"</span>, <span class="hljs-type">EmailsConfig</span>(fromName = <span class="hljs-string">"Company"</span>, fromEmail = <span class="hljs-string">"info@example.com"</span>))
+
+  <span class="hljs-type">SendgridProvider</span>.resource[<span class="hljs-type">F</span>](global, config).use{ <span class="hljs-keyword">implicit</span> provider =&gt; 
+    <span class="hljs-keyword">val</span> service = <span class="hljs-keyword">new</span> <span class="hljs-type">Service</span>[<span class="hljs-type">F</span>]
+
+    service.respond()
+  }
+
+
+}
+
+</code></pre>
+<p>Here's a mock email service that just logs the email intent:</p>
+<pre><code class="hljs css language-scala mdoc"><span class="hljs-keyword">import</span> org.http4s.<span class="hljs-type">Status</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MockEmail</span>[<span class="hljs-type">F</span>[_]</span>: <span class="hljs-type">Applicative</span>: <span class="hljs-type">Logger</span>] <span class="hljs-keyword">extends</span> <span class="hljs-type">EmailAlgebra</span>[<span class="hljs-type">F</span>] {
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sendEmail</span></span>(email: <span class="hljs-type">EmailData</span>): <span class="hljs-type">F</span>[<span class="hljs-type">Status</span>] = {
+    (
+      <span class="hljs-type">Logger</span>[<span class="hljs-type">F</span>].info(<span class="hljs-string">"sending email"</span>) *&gt; 
+      <span class="hljs-type">Logger</span>[<span class="hljs-type">F</span>].info(email.toString)
+    ).as(<span class="hljs-type">Status</span>.<span class="hljs-type">Ok</span>)
+  }
+}
+
+</code></pre>
+<pre><code class="hljs css language-scala mdoc:invisible"><span class="hljs-comment">// Make a logger instance that just printlns it, so it works for docs:</span>
+
+  <span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">consoleLogger</span></span>: <span class="hljs-type">Logger</span>[<span class="hljs-type">Id</span>] = <span class="hljs-keyword">new</span> <span class="hljs-type">Logger</span>[<span class="hljs-type">Id</span>] {
+    <span class="hljs-comment">// Members declared in io.chrisdavenport.log4cats.ErrorLogger</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">debug</span></span>(t: <span class="hljs-type">Throwable</span>)(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">error</span></span>(t: <span class="hljs-type">Throwable</span>)(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">info</span></span>(t: <span class="hljs-type">Throwable</span>)(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">trace</span></span>(t: <span class="hljs-type">Throwable</span>)(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">warn</span></span>(t: <span class="hljs-type">Throwable</span>)(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+
+    <span class="hljs-comment">// Members declared in io.chrisdavenport.log4cats.MessageLogger</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">debug</span></span>(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">error</span></span>(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">info</span></span>(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">trace</span></span>(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">warn</span></span>(message: =&gt; <span class="hljs-type">String</span>): cats.<span class="hljs-type">Id</span>[<span class="hljs-type">Unit</span>] = println(message)
+  }
+
+
+</code></pre>
+<p>There's a hidden instance of Logger for Id defined, so this works and shows our mock output:</p>
+<pre><code class="hljs css language-scala mdoc"><span class="hljs-keyword">import</span> cats._
+
+<span class="hljs-keyword">implicit</span> <span class="hljs-keyword">val</span> mock: <span class="hljs-type">EmailAlgebra</span>[<span class="hljs-type">Id</span>] = <span class="hljs-keyword">new</span> <span class="hljs-type">MockEmail</span>[<span class="hljs-type">Id</span>]
+<span class="hljs-keyword">val</span> service = <span class="hljs-keyword">new</span> <span class="hljs-type">Service</span>[<span class="hljs-type">Id</span>]
+
+service.respond()
+
+</code></pre>
+<p>Now your <code>Service[F]</code> class is ready to be used with IO inside of an IOApp.</p>
+<h1><a class="anchor" aria-hidden="true" id="future-work"></a><a href="#future-work" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Future work</h1>
+<ul>
+<li>Make the project work for other providers (amazon, G suite, mailchimp, self-managed)</li>
+</ul>
 </span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/sendgrid-scala/" class="nav-home"></a><div><h5>Docs</h5><a href="/sendgrid-scala/docs/en/doc1.html">Getting Started (or other categories)</a><a href="/sendgrid-scala/docs/en/doc2.html">Guides (or other categories)</a><a href="/sendgrid-scala/docs/en/doc3.html">API Reference (or other categories)</a></div><div><h5>Community</h5><a href="/sendgrid-scala/en/users.html">User Showcase</a><a href="https://stackoverflow.com/questions/tagged/" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://discordapp.com/">Project Chat</a><a href="https://twitter.com/" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/sendgrid-scala/blog">Blog</a><a href="https://github.com/">GitHub</a><a class="github-button" href="https://github.com/clovellytech/sendgrid-scala" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/sendgrid-scala/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"></section></footer></div></body></html>
