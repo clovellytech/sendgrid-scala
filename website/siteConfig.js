@@ -24,6 +24,7 @@ const siteConfig = {
   title: 'Sendgrid Scala API Docs', // Title for your website.
   tagline: '',
   url: 'https://clovellytech.github.io', // Your website URL
+  customDocsPath: 'sendgrid-scala-docs/target/mdoc',
   baseUrl: '/sendgrid-scala/', // Base URL for your project */
   projectName: 'sendgrid-scala',
   organizationName: 'clovellytech',
