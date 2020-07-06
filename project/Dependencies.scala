@@ -30,7 +30,7 @@ object dependencies {
   object versions {
     val cats = "2.1.1"
     val catsMtl = "0.7.0"
-    val catsEffect = "2.0.0"
+    val catsEffect = "2.1.3"
     val circe = "0.13.0"
     val circeFs2 = "0.13.0"
     val circeConfig = "0.8.0"
