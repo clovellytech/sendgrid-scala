@@ -29,15 +29,14 @@ class SendgridProvider[F[_]: ConcurrentEffect: ContextShift: Timer: Logger](
       req <- POST.apply(email, send, config.requestHeadersList.toList: _*)
       _ <- Logger[F].info("Attempting to send email")
       resp <- client.run(req).use { resp =>
-        if (resp.status == Status.Accepted) {
+        if (resp.status == Status.Accepted)
           Logger[F].info("sending successful") *> ConcurrentEffect[F].delay(resp.status)
-        } else {
+        else
           resp.as[SendgridErrors].flatMap { e =>
             val error = new Error(e.errors.toString)
             val logmessage = s"sending failed\n\n${email.toString}"
             Logger[F].error(error)(logmessage) *> ConcurrentEffect[F].raiseError[Status](error)
           }
-        }
       }
     } yield resp
 }
