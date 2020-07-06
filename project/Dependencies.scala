@@ -34,7 +34,7 @@ object dependencies {
     val circe = "0.13.0"
     val circeFs2 = "0.13.0"
     val circeConfig = "0.8.0"
-    val http4s = "0.21.4"
+    val http4s = "0.21.6"
     val kindProjector212 = "0.10.3"
     val kindProjector213 = "0.11.0"
     val log4cats = "1.1.1"
