@@ -40,7 +40,7 @@ object dependencies {
     val log4cats = "1.1.1"
     val macroParadise = "2.1.1"
     val scalaCheck = "1.14.3"
-    val scalatags = "0.8.2"
+    val scalatags = "0.8.6"
     val scalatest = "3.2.0-M1"
     val simulacrum = "1.0.0"
   }
