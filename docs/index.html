@@ -54,9 +54,9 @@
 <pre><code class="hljs css language-scala"><span class="hljs-keyword">import</span> cats._
 
 <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">val</span> mock: <span class="hljs-type">EmailAlgebra</span>[<span class="hljs-type">Id</span>] = <span class="hljs-keyword">new</span> <span class="hljs-type">MockEmail</span>[<span class="hljs-type">Id</span>]
-<span class="hljs-comment">// mock: EmailAlgebra[Id] = repl.Session$App$MockEmail@4f7bf476</span>
+<span class="hljs-comment">// mock: EmailAlgebra[Id] = repl.Session$App$MockEmail@4a08ed53</span>
 <span class="hljs-keyword">val</span> service = <span class="hljs-keyword">new</span> <span class="hljs-type">Service</span>[<span class="hljs-type">Id</span>]
-<span class="hljs-comment">// service: Service[Id] = repl.Session$App$Service@7881bf3f</span>
+<span class="hljs-comment">// service: Service[Id] = repl.Session$App$Service@592d548d</span>
 
 service.respond()
 <span class="hljs-comment">// sending email</span>
