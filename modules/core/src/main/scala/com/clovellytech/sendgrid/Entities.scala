@@ -19,12 +19,13 @@ final case class EmailData(
 )
 
 object EmailData {
-  def text(from: Email, to: Email, subject: String, text: String): EmailData = EmailData(
-    List(Personalizations(List(to))),
-    from,
-    subject,
-    List(ContentElement("text/plain", text))
-  )
+  def text(from: Email, to: Email, subject: String, text: String): EmailData =
+    EmailData(
+      List(Personalizations(List(to))),
+      from,
+      subject,
+      List(ContentElement("text/plain", text))
+    )
 
   def textHtml(from: Email, to: Email, subject: String, text: String, html: String): EmailData =
     EmailData(
