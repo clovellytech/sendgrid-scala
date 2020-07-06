@@ -33,7 +33,7 @@ object dependencies {
     val catsEffect = "2.0.0"
     val circe = "0.13.0"
     val circeFs2 = "0.12.0"
-    val circeConfig = "0.7.0"
+    val circeConfig = "0.8.0"
     val http4s = "0.21.4"
     val kindProjector212 = "0.10.3"
     val kindProjector213 = "0.11.0"
